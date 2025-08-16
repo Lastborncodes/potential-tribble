@@ -1,1 +1,76 @@
 # potential-tribble
+import React, { useState } from "react"; import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button"; import { PhoneCall, ShoppingCart, Instagram, Mail } from "lucide-react"; import { motion } from "framer-motion";
+
+const products = [ { name: "Vintage Crepes", price: 2500, image: "/images/vintage-crepes.jpg", description: "Elegant, timeless crepe fabric ideal for classic garments.", badge: "New" }, { name: "Plain Crepes", price: 2000, image: "/images/plain-crepes.jpg", description: "Smooth and versatile plain crepes perfect for everyday wear." }, { name: "Ribs", price: 1500, image: "/images/ribs.jpg", description: "Textured and stretchy fabric, great for stylish, snug fits." }, { name: "Crinkled Crepes", price: 2200, image: "/images/crinkled-crepes.jpg", description: "Soft, wrinkled texture for a chic, casual look." }, { name: "Silk", price: 3000, image: "/images/silk.jpg", description: "Luxurious and smooth, silk is perfect for elegant occasions.", badge: "Sale" }, { name: "Playboy", price: 2800, image: "/images/playboy.jpg", description: "Bold and stylish, this fabric stands out with unique prints." }, { name: "Wool Net", price: 1800, image: "/images/wool-net.jpg", description: "Warm yet breathable, ideal for layering or accessories." }, ];
+
+const whatsappLink = "https://wa.me/1234567890"; // Replace with your real WhatsApp number const instagramLink = "https://instagram.com/yourhandle"; const email = "mailto:youremail@example.com";
+
+export default function LastbornVintage() { const [cart, setCart] = useState([]);
+
+const addToCart = (product) => { setCart([...cart, product]); };
+
+const turnover = cart.reduce((total, item) => total + item.price, 0);
+
+return ( <main className="p-4 sm:p-6 max-w-7xl mx-auto"> <header className="text-center mb-10"> <h1 className="text-5xl font-bold mb-2">Lastborn Vintage</h1> <p className="text-lg text-gray-600"> Premium vintage fabrics for timeless fashion </p> <p className="mt-4 text-lg font-semibold text-green-700"> Total Turnover: ₦{turnover.toLocaleString()} </p> </header>
+
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {products.map((product, index) => (
+      <motion.div
+        key={index}
+        whileHover={{ scale: 1.03 }}
+        className="rounded-2xl shadow-md bg-white overflow-hidden relative"
+      >
+        {product.badge && (
+          <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+            {product.badge}
+          </span>
+        )}
+        <Card>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-52 object-cover"
+          />
+          <CardContent className="p-4">
+            <h2 className="text-xl font-semibold mb-1">{product.name}</h2>
+            <p className="text-gray-600 mb-2 text-sm">{product.description}</p>
+            <p className="text-gray-800 font-medium mb-4">₦{product.price.toLocaleString()} per yard</p>
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={() => addToCart(product)}>
+                <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+              </Button>
+              <Button variant="outline" asChild>
+                <a
+                  href={`${whatsappLink}?text=Hi! I'm interested in ${product.name}. Can I get more details?`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <PhoneCall className="mr-2 h-4 w-4" /> WhatsApp
+                </a>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    ))}
+  </div>
+
+  <footer className="mt-16 text-center">
+    <h3 className="text-xl font-semibold mb-2">Connect with us</h3>
+    <div className="flex justify-center gap-4 text-gray-700 text-sm">
+      <a href={whatsappLink} target="_blank" className="hover:underline">
+        <PhoneCall className="inline-block mr-1 h-4 w-4" /> WhatsApp
+      </a>
+      <a href={instagramLink} target="_blank" className="hover:underline">
+        <Instagram className="inline-block mr-1 h-4 w-4" /> Instagram
+      </a>
+      <a href={email} className="hover:underline">
+        <Mail className="inline-block mr-1 h-4 w-4" /> Email
+      </a>
+    </div>
+    <p className="text-xs text-gray-400 mt-4">© {new Date().getFullYear()} Lastborn Vintage. All rights reserved.</p>
+  </footer>
+</main>
+
+); }
+
